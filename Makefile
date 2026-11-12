@@ -25,10 +25,19 @@ lock:  ## Update uv.lock
 
 .PHONY: lint
 lint:  ## Check formatting and lint with Ruff
-	$(UV_RUN) ruff format --check app
-	$(UV_RUN) ruff check app
+	$(UV_RUN) ruff format --check app tests alembic
+	$(UV_RUN) ruff check app tests alembic
 
 .PHONY: format
 format:  ## Auto-format and autofix with Ruff
-	$(UV_RUN) ruff format app
-	$(UV_RUN) ruff check --fix app
+	$(UV_RUN) ruff format app tests alembic
+	$(UV_RUN) ruff check --fix app tests alembic
+
+.PHONY: test
+test:  ## Run unit tests; use ARGS="-k uuid" to narrow
+	$(UV_RUN) pytest -q $(ARGS)
+
+.PHONY: ready
+ready: lint test  ## Full local gate: formatting, lint and tests
+	@echo ""
+	@echo "ready: all checks passed."
