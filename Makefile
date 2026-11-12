@@ -86,17 +86,21 @@ migrate:  ## Apply migrations in the running API container
 webhook: env  ## Run the local webhook receiver
 	@set -a; source .env; set +a; python3 examples/webhook_server.py "$${WEBHOOK_PORT:-9001}"
 
+.PHONY: smoke
+smoke: env  ## Run success, idempotency, Outbox and DLQ checks
+	@set -a; source .env; set +a; $(UV_RUN) python scripts/smoke.py
+
 # ---- Quality gates ----
 
 .PHONY: lint
 lint:  ## Check formatting and lint with Ruff
-	$(UV_RUN) ruff format --check app tests alembic examples
-	$(UV_RUN) ruff check app tests alembic examples
+	$(UV_RUN) ruff format --check app tests alembic examples scripts
+	$(UV_RUN) ruff check app tests alembic examples scripts
 
 .PHONY: format
 format:  ## Auto-format and autofix with Ruff
-	$(UV_RUN) ruff format app tests alembic examples
-	$(UV_RUN) ruff check --fix app tests alembic examples
+	$(UV_RUN) ruff format app tests alembic examples scripts
+	$(UV_RUN) ruff check --fix app tests alembic examples scripts
 
 .PHONY: test
 test:  ## Run unit tests; use ARGS="-k idempotent" to narrow
