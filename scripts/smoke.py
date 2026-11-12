@@ -11,11 +11,10 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
 import httpx
-import uuid_utils
 
 
 def new_id() -> uuid.UUID:
-    return uuid.UUID(str(uuid_utils.uuid7()))
+    return uuid.uuid7()
 
 
 def check(condition: bool, message: str) -> None:

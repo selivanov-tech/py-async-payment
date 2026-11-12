@@ -4,7 +4,6 @@ from decimal import Decimal
 from enum import StrEnum
 from typing import Any
 
-import uuid_utils
 from sqlalchemy import (
     JSON,
     CheckConstraint,
@@ -24,8 +23,7 @@ JSON_TYPE = JSON().with_variant(JSONB, "postgresql")
 
 
 def uuid7() -> uuid.UUID:
-    # uuid-utils has its own UUID class; Pydantic and SQLAlchemy expect stdlib UUID.
-    return uuid.UUID(str(uuid_utils.uuid7()))
+    return uuid.uuid7()
 
 
 class Base(DeclarativeBase):

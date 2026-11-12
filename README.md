@@ -7,7 +7,7 @@
 
 ## Стек
 
-- Python 3.14, совместимость с Python 3.13+;
+- Python 3.14;
 - FastAPI и Pydantic v2;
 - PostgreSQL 17, SQLAlchemy 2.0 async и Alembic;
 - RabbitMQ 4 и FastStream;
