@@ -40,3 +40,16 @@ class PaymentRead(BaseModel):
 class PaymentCreatedEvent(BaseModel):
     event_id: uuid.UUID
     payment_id: uuid.UUID
+
+
+class PaymentWebhookPayload(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    payment_id: uuid.UUID
+    status: PaymentStatus
+    amount: Decimal
+    currency: Currency
+    description: str
+    metadata: dict[str, Any]
+    created_at: datetime
+    processed_at: datetime | None
